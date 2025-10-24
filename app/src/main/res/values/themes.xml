@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.FoodDelivery" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.FoodDeliveryAdjusted.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+
+    <style name="Theme.FoodDelivery.Splash" parent="Theme.FoodDeliveryAdjusted.Splash">
+<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>-->
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="postSplashScreenTheme">@style/Theme.FoodDelivery</item>
+        <item name="android:windowBackground">@drawable/splashscreen</item>
+    </style>
 </resources>

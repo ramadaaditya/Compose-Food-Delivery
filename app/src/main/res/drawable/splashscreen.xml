@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/white" />
+    <item android:gravity="top|start">
+        <bitmap
+            android:antialias="true"
+            android:filter="true"
+            android:src="@drawable/bg_splash2" />
+    </item>
+
+    <item android:gravity="center">
+        <bitmap
+            android:antialias="true"
+            android:filter="true"
+            android:src="@drawable/logos" />
+    </item>
+
+    <item android:gravity="bottom|end">
+        <bitmap
+            android:antialias="true"
+            android:filter="true"
+            android:src="@drawable/bg_splash1" />
+    </item>
+</layer-list>

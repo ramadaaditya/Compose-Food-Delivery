@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.FoodDelivery" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!--    <style name="Theme.FoodDeliveryAdjusted.Splash" parent="Theme.SplashScreen"></style>-->
+
+    <style name="Theme.FoodDelivery.Splash" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowSplashScreenBackground">@color/white</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+
+
+        <item name="postSplashScreenTheme">@style/Theme.FoodDelivery</item>
+    </style>
+</resources>
