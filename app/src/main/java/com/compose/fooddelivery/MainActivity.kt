@@ -8,11 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.compose.fooddelivery.ui.screen.login.LoginScreen
 import com.compose.fooddelivery.ui.screen.onboarding.OnboardingScreen
 import com.compose.fooddelivery.ui.theme.FoodDeliveryTheme
 
-
-const val ONBOARDING_PAGE_COUNT = 3
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,14 +21,16 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             FoodDeliveryTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { contentPadding ->
+                LoginScreen(
+                )
+//                Scaffold(modifier = Modifier.fillMaxSize()) { contentPadding ->
 
-                    OnboardingScreen(
-                        paddingValues = contentPadding,
-                        onboardingFinished = {}
-                    )
-                }
+//                    OnboardingScreen(
+//                        paddingValues = contentPadding,
+//                        onboardingFinished = {}
+//                    )
             }
+//            }
         }
     }
 }

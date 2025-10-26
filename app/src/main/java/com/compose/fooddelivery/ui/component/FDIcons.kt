@@ -29,4 +29,7 @@ object FDIcons {
     val send = R.drawable.ic_send
     val volume = R.drawable.ic_volume_1
     val watch = R.drawable.ic_watch
+    val facebook = R.drawable.ic_fb
+    val twitter = R.drawable.ic_twitter
+    val icloud = R.drawable.ic_icloud
 }

@@ -59,5 +59,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
 
-    implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation(libs.androidx.core.splashscreen)
+    implementation("androidx.navigation:navigation-compose:2.9.5")
 }
