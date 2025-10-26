@@ -1,4 +1,4 @@
-package com.compose.fooddelivery.ui.screen.login
+package com.compose.fooddelivery.ui.screen.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -32,12 +34,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.compose.fooddelivery.R
+import com.compose.fooddelivery.ui.component.BackButton
+import com.compose.fooddelivery.ui.component.FDButton
 import com.compose.fooddelivery.ui.component.FDIcons
 import com.compose.fooddelivery.ui.component.SetSystemBarsTheme
+import com.compose.fooddelivery.ui.component.SocialButton
 import com.compose.fooddelivery.ui.theme.FoodDeliveryTheme
 
 @Composable
-fun LoginScreen() {
+fun RegisterScreen(
+    onBackClicked: () -> Unit
+) {
     SetSystemBarsTheme(
         isLightStatusBars = false,
         isLightNavigationBars = true
@@ -61,15 +68,18 @@ fun LoginScreen() {
                 contentScale = ContentScale.Crop,
                 alpha = 0.1f
             )
+
+            BackButton(onBackClicked)
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp)
-                    .padding(top = 100.dp),
+                    .padding(top = 120.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    "Log In",
+                    "Sign Up",
                     style = TextStyle(
                         fontSize = 30.sp,
                         color = Color.White,
@@ -78,7 +88,7 @@ fun LoginScreen() {
                 )
                 Spacer(modifier = Modifier.height(3.dp))
                 Text(
-                    "Please sign in to your existing account",
+                    "Please sign up to get started",
                     style = TextStyle(
                         color = Color.White,
                         fontSize = 16.sp
@@ -100,9 +110,18 @@ fun LoginScreen() {
                     )
                 )
                 .padding(horizontal = 32.dp)
-                .padding(top = 32.dp, bottom = 32.dp),
+                .padding(top = 32.dp, bottom = 32.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                label = { Text("Name") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
             OutlinedTextField(
                 value = "",
                 onValueChange = {},
@@ -118,71 +137,54 @@ fun LoginScreen() {
                 label = { Text("Password") },
                 modifier = Modifier.fillMaxWidth()
             )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                label = { Text("Re-Type Password") },
+                modifier = Modifier.fillMaxWidth()
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Button(
-                onClick = { /* TODO */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFE6C00))
-            ) {
-                Text("LOG IN", color = Color.White, fontWeight = FontWeight.Bold)
-            }
+            FDButton(
+                onClick = {},
+                text = "SIGN UP"
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Row {
-                Text("Don't have an account? ")
+                Text("Already have account? ")
                 Text(
-                    "SIGN UP",
+                    "SIGN IN",
                     color = Color(0xFFFE6C00),
                     fontWeight = FontWeight.Bold,
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text("Or")
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                IconButton(onClick = { }) {
-                    Icon(
-                        painterResource(FDIcons.facebook),
-                        contentDescription = "Facebook",
-                        tint = Color.Unspecified
-                    )
-                }
-                IconButton(onClick = { }) {
-                    Icon(
-                        painterResource(FDIcons.twitter),
-                        contentDescription = "Twitter",
-                        tint = Color.Unspecified
-                    )
-                }
-                IconButton(onClick = { }) {
-                    Icon(
-                        painterResource(FDIcons.icloud),
-                        contentDescription = "Apple",
-                        tint = Color.Unspecified
-                    )
-                }
-            }
+            SocialButton(
+                onAppleClick = {},
+                onTwitterClick = {},
+                onFacebookClick = {}
+            )
         }
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true, device = PIXEL_5)
 @Composable
-private fun LoginScreenPreview() {
+private fun RegisterScreenPreview() {
     FoodDeliveryTheme {
-        LoginScreen(
+        RegisterScreen(
+            onBackClicked = {}
         )
     }
 }
