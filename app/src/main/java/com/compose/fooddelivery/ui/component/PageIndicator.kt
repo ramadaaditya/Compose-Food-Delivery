@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,17 +17,16 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun PageIndicator(
-    currentPage: Int,
+    pagerState: PagerState,
     modifier: Modifier = Modifier,
-    pageCount: Int,
     onDotClick: (Int) -> Unit
 ) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        repeat(pageCount) { index ->
-            val isSelected = (index == currentPage)
+        repeat(pagerState.pageCount) { index ->
+            val isSelected = (index == pagerState.currentPage)
             val size =
                 animateDpAsState(targetValue = if (isSelected) 10.dp else 8.dp, label = "dot size")
             val color = if (isSelected) Color(0xFFFF7622) else Color.LightGray

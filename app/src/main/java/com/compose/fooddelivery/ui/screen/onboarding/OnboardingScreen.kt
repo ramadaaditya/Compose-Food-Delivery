@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -18,10 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,44 +36,18 @@ import androidx.compose.ui.unit.sp
 import com.compose.fooddelivery.R
 import com.compose.fooddelivery.ui.component.PageIndicator
 import com.compose.fooddelivery.ui.theme.FoodDeliveryTheme
+import kotlinx.coroutines.launch
 
-
-private data class OnboardingPage(
-    val imageRes: Int,
-    val title: String,
-    val description: String
-)
-
-private val onboardingPages = listOf(
-    OnboardingPage(
-        imageRes = R.drawable.placeholder,
-        title = "All your favorites",
-        description = "Get all your loved foods in one once place,\nyou just place the orer we do the rest"
-    ),
-    OnboardingPage(
-        imageRes = R.drawable.placeholder,
-        title = "Order from choosen chef",
-        description = "Get all your loved foods in one once place, \n" +
-                "you just place the orer we do the rest"
-    ),
-    OnboardingPage(
-        imageRes = R.drawable.placeholder,
-        title = "Fast delivery",
-        description = "Get your food delivered in minutes\nright at your doorstep."
-    )
-)
-
-//private const val ONBOARDING_PAGE_COUNT = 3
+private const val ONBOARDING_PAGE_COUNT = 3
 
 @Composable
 fun OnboardingScreen(
     paddingValues: PaddingValues,
     onboardingFinished: () -> Unit
 ) {
-    var currentPage by remember { mutableIntStateOf(0) }
-    val totalPages = onboardingPages.size
+    val pagerState = rememberPagerState { ONBOARDING_PAGE_COUNT }
+    val scope = rememberCoroutineScope()
 
-    val currentPageData = onboardingPages[currentPage]
 
     Column(
         modifier = Modifier
@@ -84,64 +57,81 @@ fun OnboardingScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier.weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            OnboardingPageCount(
-                imageRes = currentPageData.imageRes,
-                title = currentPageData.title,
-                description = currentPageData.description
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            PageIndicator(
-                currentPage = currentPage,
-                pageCount = totalPages,
-                onDotClick = { index ->
-                    currentPage = index
-                })
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = {
-                    if (currentPage < totalPages - 1) {
-                        currentPage++
-                    } else {
-                        onboardingFinished()
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFF7622)
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.weight(1f)
+        ) { pageIndex ->
+            when (pageIndex) {
+                0 -> OnboardingPageCount(
+                    imageRes = R.drawable.placeholder,
+                    title = "All your favorites",
+                    description = "Get all your loved foods in one once place,\nyou just place the orer we do the rest"
                 )
-            ) {
 
-                val buttonText = if (currentPage < totalPages - 1) "NEXT" else "GET STARTED"
-                Text(
-                    text = buttonText,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                1 -> OnboardingPageCount(
+                    imageRes = R.drawable.placeholder,
+                    title = "Order from choosen chef",
+                    description = "Get all your loved foods in one once place, \n" +
+                            "you just place the orer we do the rest"
+                )
+
+                2 -> OnboardingPageCount(
+                    imageRes = R.drawable.placeholder,
+                    title = "Fast delivery",
+                    description = "Get your food delivered in minutes\nright at your doorstep."
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "SKIP",
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.Gray,
-                modifier = Modifier
-                    .clickable { onboardingFinished() }
-                    .padding(8.dp)
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-
         }
+
+        PageIndicator(
+            pagerState = pagerState,
+            onDotClick = { index ->
+                scope.launch {
+                    pagerState.animateScrollToPage(index)
+                }
+            })
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                if (pagerState.currentPage < ONBOARDING_PAGE_COUNT - 1) {
+                    scope.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
+                } else {
+                    onboardingFinished()
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFFF7622)
+            )
+        ) {
+            val buttonText =
+                if (pagerState.currentPage < ONBOARDING_PAGE_COUNT - 1) "NEXT" else "GET STARTED"
+            Text(
+                text = buttonText,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "SKIP",
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.Gray,
+            modifier = Modifier
+                .clickable { onboardingFinished() }
+                .padding(8.dp)
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+
     }
 }
 
@@ -154,7 +144,8 @@ fun OnboardingPageCount(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
     ) {
         Image(
             painter = painterResource(imageRes),
